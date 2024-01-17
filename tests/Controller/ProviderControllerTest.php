@@ -18,6 +18,7 @@ class ProviderControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
+        $this->client->catchExceptions(false);
         $this->manager = static::getContainer()->get('doctrine')->getManager();
         $this->repository = $this->manager->getRepository(Provider::class);
 
@@ -41,27 +42,59 @@ class ProviderControllerTest extends WebTestCase
 
     public function testNew(): void
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->client->request('GET', sprintf('%snew', $this->path));
+        $this->client->catchExceptions(false);
 
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'provider[email]' => 'Testing',
-            'provider[phone]' => 'Testing',
-            'provider[dni]' => 'Testing',
-            'provider[cif]' => 'Testing',
+            'provider[businessName]' => 'proves@gmail.com',
+            'provider[email]' => 'proves@gmail.com',
+            'provider[phone]' => '666666666',
+            'provider[dni]' => '12345678Z',
+            'provider[cif]' => 'B12345678',
             'provider[address]' => 'Testing',
             'provider[bankTitle]' => 'Testing',
-            'provider[managerNif]' => 'Testing',
+            'provider[managerNif]' => '12345678Z',
             'provider[LOPDdoc]' => 'Testing',
             'provider[constitutionArticle]' => 'Testing',
         ]);
 
-        self::assertResponseRedirects('/sweet/food/');
+        self::assertResponseRedirects($this->path);
 
-        self::assertSame(1, $this->getRepository()->count([]));
+        self::assertSame(1, $this->repository->count([]));
     }
+
+    public function testNewFailsIfNoDataSent(): void
+    {
+        //$this->markTestIncomplete();
+        $this->client->request('GET', sprintf('%snew', $this->path));
+        $this->client->catchExceptions(false);
+
+        self::assertResponseStatusCodeSame(200);
+
+        $this->client->submitForm('Save', [
+            'provider[businessName]' => '',
+            'provider[email]' => '',
+            'provider[phone]' => '',
+            'provider[dni]' => '',
+            'provider[cif]' => '',
+            'provider[address]' => '',
+            'provider[bankTitle]' => '',
+            'provider[managerNif]' => '',
+            'provider[LOPDdoc]' => '',
+            'provider[constitutionArticle]' => '',
+        ]);
+
+
+        self::assertSelectorExists("#provider_email.is-invalid");
+        self::assertSelectorExists("#provider_businessName.is-invalid");
+        self::assertSelectorExists("input[name=\"provider[dni]\"].is-invalid");
+
+        //self::assertSame(1, $this->repository->count([]));
+    }
+
 
     public function testShow(): void
     {

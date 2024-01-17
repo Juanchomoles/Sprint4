@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\InvoiceRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,18 +16,18 @@ class Invoice
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'El número no puede estar en blanco.')]
-    #[Assert\Length(max: 255, maxMessage: 'El número no puede tener más de {{ limit }} caracteres.')]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $number = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'El precio no puede estar en blanco.')]
-    #[Assert\Type(type: 'float', message: 'El precio debe ser un número decimal.')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'float')]
     private ?float $price = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotBlank(message: 'La fecha no puede estar en blanco.')]
-    #[Assert\Type(type: '\DateTimeInterface', message: 'La fecha debe ser un objeto DateTime.')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type:'\DateTimeInterface' )]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
@@ -37,6 +37,7 @@ class Invoice
     #[ORM\OneToOne(inversedBy: 'invoice', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Order $customerOrder = null;
+
 
 
     public function getId(): ?int

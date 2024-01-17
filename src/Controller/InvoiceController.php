@@ -17,6 +17,10 @@ class InvoiceController extends AbstractController
     #[Route('/', name: 'app_invoice_index', methods: ['GET'])]
     public function index(InvoiceRepository $invoiceRepository): Response
     {
+        // X Invoices -> 10 invoice por Pag
+        // Pag 1: Limit 10, offset: 1
+        // Pag 2: Limit 10, offset: 11
+        // Pag 2: Limit 10, offset: 21
         return $this->render('invoice/index.html.twig', [
             'invoices' => $invoiceRepository->findAll(),
         ]);
@@ -35,23 +39,14 @@ class InvoiceController extends AbstractController
 
             return $this->redirectToRoute('app_invoice_index', [], Response::HTTP_SEE_OTHER);
         }
-        else {
 
-            $errors = $form->getErrors(true, false);
+        return $this->render('invoice/new.html.twig', [
+            'invoice' => $invoice,
+            'form' => $form,
+        ]);
+    }
 
-            foreach ($errors as $error) {
-                echo $error->getMessage() . '<br>';
-            }
-        }
-
-            return $this->render('invoice/new.html.twig', [
-                'invoice' => $invoice,
-                'form' => $form,
-            ]);
-        }
-
-        #[
-        Route('/{id}', name: 'app_invoice_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_invoice_show', methods: ['GET'])]
     public function show(Invoice $invoice): Response
     {
         return $this->render('invoice/show.html.twig', [
@@ -80,7 +75,7 @@ class InvoiceController extends AbstractController
     #[Route('/{id}', name: 'app_invoice_delete', methods: ['POST'])]
     public function delete(Request $request, Invoice $invoice, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $invoice->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$invoice->getId(), $request->request->get('_token'))) {
             $entityManager->remove($invoice);
             $entityManager->flush();
         }

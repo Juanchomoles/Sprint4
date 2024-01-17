@@ -4,8 +4,24 @@
 
 return [[
 
+'_default' => 0,
 
 ], [
 
+0 => [
+    'entrypoints' => [
+        'app' => [
+            'js' => [
+                '/build/runtime.js',
+                '/build/vendors-node_modules_hotwired_turbo_dist_turbo_es2017-esm_js-node_modules_symfony_stimulus-br-192652.js',
+                '/build/app.js',
+            ],
+            'css' => [
+                '/build/vendors-node_modules_hotwired_turbo_dist_turbo_es2017-esm_js-node_modules_symfony_stimulus-br-192652.css',
+                '/build/app.css',
+            ],
+        ],
+    ],
+],
 
 ]];

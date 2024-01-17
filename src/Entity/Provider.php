@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\ProviderRepository;
+use App\Validator\Dni;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProviderRepository::class)]
 class Provider
@@ -16,34 +18,53 @@ class Provider
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Type(type: 'string')]
+    #[Assert\NotBlank]
     private ?string $email = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\Length(max: 9)]
+    #[Assert\NotBlank]
     private ?string $phone = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\Length(max: 9)]
+    #[Assert\NotBlank]
+    #[Dni]
     private ?string $dni = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\Length(max: 9)]
+    #[Assert\NotBlank]
     private ?string $cif = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $bankTitle = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\Length(max: 9)]
+    #[Assert\NotBlank]
     private ?string $managerNif = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $LOPDdoc = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $constitutionArticle = null;
 
     #[ORM\OneToMany(mappedBy: 'provider', targetEntity: Vehicle::class, orphanRemoval: true)]
     private Collection $vehicles;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    private ?string $businessName = null;
 
     public function __construct()
     {
@@ -192,4 +213,20 @@ class Provider
 
         return $this;
     }
+
+    public function getBusinessName(): ?string
+    {
+        return $this->businessName;
+    }
+
+    public function setBusinessName(string $businessName): static
+    {
+        $this->businessName = $businessName;
+
+        return $this;
+    }
+
+
+
+
 }
