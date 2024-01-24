@@ -3,7 +3,7 @@ burger.addEventListener('click', function () {
     burger.classList.toggle('active');
     let ocultMenu = document.querySelector('.ocultMenu');
     let menuAside = document.getElementById('menu-aside');
-    
+
     ocultMenu.classList.toggle('displayHambMenu');
     menuAside.classList.toggle('displayHambMenu'); // Toggle la clase para el aside
 

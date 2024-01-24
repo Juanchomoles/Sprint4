@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitab130dbcd9a361badece67fb60d324f6
+class ComposerStaticInitea05b1ca85419f1e882d9ba207bc1688
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -44,6 +44,7 @@ class ComposerStaticInitab130dbcd9a361badece67fb60d324f6
         'S' => 
         array (
             'Symfony\\WebpackEncoreBundle\\' => 28,
+            'Symfony\\UX\\Vue\\' => 15,
             'Symfony\\UX\\Turbo\\' => 17,
             'Symfony\\UX\\StimulusBundle\\' => 26,
             'Symfony\\Runtime\\Symfony\\Component\\' => 34,
@@ -207,6 +208,10 @@ class ComposerStaticInitab130dbcd9a361badece67fb60d324f6
         'Symfony\\WebpackEncoreBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/webpack-encore-bundle/src',
+        ),
+        'Symfony\\UX\\Vue\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/ux-vue/src',
         ),
         'Symfony\\UX\\Turbo\\' => 
         array (
@@ -1290,9 +1295,9 @@ class ComposerStaticInitab130dbcd9a361badece67fb60d324f6
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitab130dbcd9a361badece67fb60d324f6::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitab130dbcd9a361badece67fb60d324f6::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitab130dbcd9a361badece67fb60d324f6::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitea05b1ca85419f1e882d9ba207bc1688::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitea05b1ca85419f1e882d9ba207bc1688::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitea05b1ca85419f1e882d9ba207bc1688::$classMap;
 
         }, null, ClassLoader::class);
     }

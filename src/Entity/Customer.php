@@ -6,13 +6,14 @@ use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name: "customer_type", type: "string")]
 #[ORM\DiscriminatorMap([self::DISCRIMINATOR_PROFESSIONAL => Professional::class, self::DISCRIMINATOR_PRIVATE => PrivateCustomer::class])]
-abstract  class Customer
+abstract  class Customer implements  JsonSerializable
 {
 
     const DISCRIMINATOR_PROFESSIONAL = 'professional';
@@ -64,6 +65,10 @@ abstract  class Customer
 
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Invoice::class, orphanRemoval: true)]
     private Collection $invoices;
+
+    #[ORM\OneToOne(inversedBy: 'customer', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Login $login = null;
 
     public function __construct()
     {
@@ -208,4 +213,33 @@ abstract  class Customer
 
         return $this;
     }
+
+    abstract public function getType(): string;
+
+    function jsonSerialize(): mixed
+    {
+        return ['id' => $this->id,
+                'name' => $this->name,
+                'lastname' => $this->lastname,
+                'address' => $this->address,
+                'dni' => $this->dni,
+                'phone' => $this->phone,
+                'email' => $this->email,
+                'type' => $this->getType()
+
+            ];
+    }
+
+    public function getLogin(): ?Login
+    {
+        return $this->login;
+    }
+
+    public function setLogin(Login $login): static
+    {
+        $this->login = $login;
+
+        return $this;
+    }
+
 }
